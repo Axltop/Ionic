@@ -3,6 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
+angular.module('PlatformApp', ['ionic'])
 angular.module('starter', ['ionic'])
 
 .run(function($ionicPlatform) {
@@ -64,7 +65,45 @@ angular.module('starter', ['ionic'])
 				}
 			}
 		})
+		.state('tabs.device',{
+			url:'/device',
+			views:{
+				"device-tab":{
+					templateUrl:'templates/device.html',
+					controller:'PlatformController'
+				}
+			}
+		})
 		$urlRouterProvider.otherwise('/tab/home')
+})
+.controller(
+	'DeviceController',
+	[
+		'$scope',
+		'$http',
+		'$state',
+		function($scope,$http,$state){
+			console.log('deviceController');	
+		}
+	]
+)
+
+.controller('PlatformController', function($scope) {
+
+	ionic.Platform.ready(function(){
+	  // will execute when device is ready, or immediately if the device is already ready.
+	});
+  	$scope.deviceInfo ={
+	   deviceInformation : ionic.Platform.device(),
+	   isWebView : ionic.Platform.isWebView(),
+	   isIPad : ionic.Platform.isIPad(),
+	   isIOS : ionic.Platform.isIOS(),
+	   isAndroid : ionic.Platform.isAndroid(),
+	   isWindowsPhone : ionic.Platform.isWindowsPhone(),
+	   currentPlatform : ionic.Platform.platform(),
+	   currentPlatformVersion : ionic.Platform.version(),
+  	}
+  //ionic.Platform.exitApp(); // stops the app
 })
 .controller(
 	'CalendarController',
